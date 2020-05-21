@@ -1,3 +1,5 @@
+#importing modules
+
 import numpy as np
 import pandas as pd
 pd.set_option('max_columns', None)
@@ -38,13 +40,14 @@ from sklearn.metrics import mean_squared_error
 from sklearn.linear_model import LinearRegresssion
 from sklearn import liner_model
 
+#Data Loading
 
 train = pd.read_csv('data/train.csv')
 test = pd.read_csv('data/test.csv')
 train.head()
 
 
-
+#Visualizing the Target Distribution
 fig, ax = plt.subplots(figsize = (16, 6))
 plt.subplot(1, 2, 1)
 plt.hist(train['revenue']);
@@ -56,7 +59,7 @@ plt.title('Distribution of log of revenue');
 
 train['log_revenue'] = np.loglp(train['revenue'])
 
-
+#Relationship between film revenue and budget
 fig, ax = plt.subplots(figsize = (16, 6))
 plt.subplot(1, 2, 1)
 plt.hist(train['budget']);
@@ -79,6 +82,7 @@ train['log_budget'] = np.loglp(train['budget'])
 test['log_budget'] = np.loglp(test['budget'])
 
 
+#Does having a homepage affect revenue?
 train['homepage'].value_counts().head(10)
 
 train['has_homepage'] = 0
@@ -91,6 +95,7 @@ sns.catplot(x='has_homepage', y='revenue', data=train);
 plt.title('Revenue for film with and without homepage');
 
 #Distribution of Languages in Film
+
 plt.figure(figsize=(16,8))
 plt.subplot(1, 2, 1)
 sns.boxplot(x='original_language', y='revenue', data=train.loc[train['original_language']isin(train['original_language'].value_counts().head(10).index)]);
@@ -100,7 +105,7 @@ sns.boxplot(x='original_language', y='log_revenue', data=train.loc[train['origin
 plt.title('Mean log revenue per language');
 
 
-#Do film descriptions impact revenuw?
+#Do film descriptions impact revenue?
 import eli5
 
 vectorizer = TfidVectorizer(
